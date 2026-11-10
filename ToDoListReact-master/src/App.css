@@ -1,0 +1,300 @@
+/* עיצוב כללי */
+.app-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f3ff, #eef6ff);
+  padding: 50px 20px;
+  color: #27324a;
+  direction: rtl;
+}
+
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* כותרת */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.header-icon {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  background: #6558dc;
+  color: white;
+  font-size: 36px;
+  border-radius: 20px;
+}
+
+.app-header h1 {
+  margin: 0 0 6px;
+  font-size: 32px;
+}
+
+.app-header p {
+  margin: 0;
+  color: #778198;
+}
+
+/* כרטיסיות סיכום */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  background: white;
+  border: 1px solid #eceefa;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 5px 20px #27324a08;
+}
+
+.stat-card span {
+  display: block;
+  font-size: 14px;
+  color: #7b8498;
+  margin-bottom: 10px;
+}
+
+.stat-card strong {
+  font-size: 30px;
+  color: #5146bf;
+}
+
+/* אזורי התוכן */
+.todo-panel {
+  background: white;
+  padding: 26px;
+  border-radius: 20px;
+  margin-bottom: 22px;
+  box-shadow: 0 8px 30px #27324a0a;
+  border: 1px solid #edf0f7;
+}
+
+.todo-panel h2 {
+  font-size: 19px;
+  margin: 0 0 20px;
+}
+
+/* טופס הוספה */
+.add-todo-form {
+  display: flex;
+  gap: 12px;
+}
+
+.add-todo-input {
+  flex: 1;
+  min-width: 0;
+  padding: 15px 18px;
+  border-radius: 12px;
+  border: 1px solid #dfe3ee;
+  background: #fafbff;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+}
+
+.add-todo-input:focus {
+  border-color: #6558dc;
+  box-shadow: 0 0 0 3px #6558dc16;
+}
+
+.add-todo-button {
+  border: none;
+  background: #6558dc;
+  color: white;
+  border-radius: 12px;
+  padding: 14px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.add-todo-button:hover:not(:disabled) {
+  background: #5042c2;
+}
+
+.add-todo-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* כותרת רשימת המשימות */
+.list-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.count-label {
+  background: #f0edff;
+  color: #5b4ccc;
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+/* רשימת המשימות */
+.todo-list-custom {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 17px 15px;
+  border: 1px solid #edf0f6;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: white;
+  transition: background 0.2s;
+}
+
+.todo-item:hover {
+  background: #fafaff;
+}
+
+.todo-item.done {
+  background: #f7faf8;
+}
+
+.todo-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-content input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #6558dc;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.todo-name {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.todo-item.done .todo-name {
+  text-decoration: line-through;
+  color: #a2a9b7;
+}
+
+/* כפתור מחיקה */
+.delete-button {
+  background: #fff0f1;
+  color: #d44b62;
+  border: none;
+  padding: 9px 15px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.delete-button:hover {
+  background: #ffe0e4;
+}
+
+/* הודעות */
+.empty-state {
+  text-align: center;
+  padding: 45px 15px;
+}
+
+.empty-icon {
+  font-size: 42px;
+  color: #6558dc;
+}
+
+.empty-state p,
+.empty-message {
+  color: #8b94a6;
+  text-align: center;
+}
+
+.error-message {
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  background: #fff0f1;
+  color: #c0374b;
+}
+
+.error-message button {
+  margin-right: 12px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* תחתית */
+.app-footer {
+  text-align: center;
+  color: #9ba2b3;
+  font-size: 13px;
+  margin-top: 30px;
+}
+
+/* התאמה לטלפונים */
+@media (max-width: 600px) {
+  .app-page {
+    padding: 24px 12px;
+  }
+
+  .app-header h1 {
+    font-size: 25px;
+  }
+
+  .stats {
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 14px 10px;
+  }
+
+  .stat-card span {
+    font-size: 12px;
+  }
+
+  .stat-card strong {
+    font-size: 24px;
+  }
+
+  .todo-panel {
+    padding: 18px;
+  }
+
+  .add-todo-form {
+    flex-direction: column;
+  }
+
+  .add-todo-button {
+    width: 100%;
+  }
+}

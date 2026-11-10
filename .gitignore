@@ -1,0 +1,25 @@
+# .NET
+**/bin/
+**/obj/
+.vs/
+.vscode/
+
+# React
+**/node_modules/
+**/build/
+**/dist/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+**/appsettings.Development.json
+**/secrets.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# Operating system
+.DS_Store
+Thumbs.db
