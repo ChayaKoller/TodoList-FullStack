@@ -93,6 +93,25 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+// יצירת הטבלאות במסד אם עדיין לא קיימות (Neon)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ToDoDbContext>();
+    db.Database.ExecuteSqlRaw(@"
+        CREATE TABLE IF NOT EXISTS ""Users"" (
+            ""Id"" SERIAL CONSTRAINT ""Users_pkey"" PRIMARY KEY,
+            ""UserName"" VARCHAR(100) NOT NULL CONSTRAINT ""Users_UserName_key"" UNIQUE,
+            ""PasswordHash"" TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS ""Items"" (
+            ""Id"" SERIAL CONSTRAINT ""Items_pkey"" PRIMARY KEY,
+            ""Name"" VARCHAR(100),
+            ""IsComplete"" BOOLEAN,
+            ""UserId"" INTEGER NOT NULL
+                CONSTRAINT ""Items_UserId_fkey"" REFERENCES ""Users""(""Id"") ON DELETE CASCADE
+        );");
+}
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
