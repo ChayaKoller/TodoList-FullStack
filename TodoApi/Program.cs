@@ -8,6 +8,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
+
+// ב-Render הפורט מגיע במשתנה הסביבה PORT
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+{
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
 builder.Services.AddDbContext<ToDoDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("ToDoDB")
@@ -93,6 +100,8 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCors("AllowAll");
 
+// כתובת בסיס לבדיקה שהשרת פועל
+app.MapGet("/", () => "TodoApi is running");
 
 // מזהה המשתמש המחובר, מתוך הטוקן (ה-claim "sub" שנוצר בהתחברות)
 static int GetUserId(ClaimsPrincipal user)

@@ -105,6 +105,20 @@ ALTER TABLE "Items" ADD CONSTRAINT "Items_UserId_fkey"
 
 אין להעלות סיסמאות או מפתחות סודיים ל-GitHub.
 
+## העלאה לענן
+
+- **מסד נתונים:** Neon (PostgreSQL חינמי). יוצרים את הטבלאות עם הקובץ `database.sql`.
+- **שרת:** Render, Web Service מסוג Docker. Root Directory: `TodoApi`. הקובץ `TodoApi/Dockerfile` בונה ומריץ את השרת, והשרת מאזין לפורט שבמשתנה `PORT`.
+- **לקוח:** Render, Static Site. Root Directory: `ToDoListReact-master`, Build Command: `npm install && npm run build`, Publish Directory: `build`.
+
+משתני סביבה (מוגדרים ב-Render, לא בקוד):
+
+| שירות | משתנה | ערך |
+|---|---|---|
+| שרת | `ConnectionStrings__ToDoDB` | מחרוזת החיבור של Neon בפורמט `Host=...;Database=...;Username=...;Password=...;SSL Mode=Require` |
+| שרת | `Jwt__Key` | מפתח סודי ב-Base64 (לפחות 32 בתים) |
+| לקוח | `REACT_APP_API_URL` | כתובת השרת ב-Render + `/api` |
+
 ## הערות
 
 - פעולות המשימות מוגנות באמצעות JWT.

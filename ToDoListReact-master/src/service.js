@@ -2,7 +2,9 @@
 import axios from "axios";
 
 // 1. הגדרת כתובת בסיס לכל בקשות Axios
-axios.defaults.baseURL = "http://localhost:5199/api";
+// בענן הכתובת מגיעה ממשתנה הסביבה REACT_APP_API_URL, ובמחשב המקומי נשאר localhost
+axios.defaults.baseURL =
+  process.env.REACT_APP_API_URL || "http://localhost:5199/api";
 
 // הוספת הטוקן (JWT) לכל בקשה שיוצאת לשרת
 axios.interceptors.request.use((config) => {
