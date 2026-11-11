@@ -1,8 +1,33 @@
-/* Global base styles for the redesigned Todo app */
+/* ===== עיצוב כללי לכל האפליקציה =====
+   כל הצבעים, הגופנים, הפינות והצללים מוגדרים כאן פעם אחת */
 :root {
-  font-family: "Segoe UI", Arial, sans-serif;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  --bg: #f4f9fc;          /* רקע בהיר */
+  --surface: #ffffff;     /* כרטיסים */
+
+  --pink: #e0367a;        /* ורוד-פוקסיה: כפתורים ומשימות פתוחות */
+  --pink-deep: #c2185b;   /* ורוד כהה: מעבר עכבר */
+  --pink-soft: #fcdbe8;   /* ורוד בהיר: רקעים */
+
+  --blue: #1b78d0;        /* כחול: מסגרות ומספרים */
+  --blue-soft: #d6ebfc;   /* כחול בהיר: רקעים */
+  --navy: #1f3f66;        /* כותרות */
+
+  --green: #14a06e;       /* ירוק: משימות שהושלמו */
+  --green-soft: #c9f0e0;  /* ירוק בהיר: רקעים */
+
+  --muted: #6b7f95;       /* טקסט משני */
+  --line: #dde8f0;        /* קווים עדינים */
+  --text: #27384b;
+  --danger: #c62f3b;
+
+  --shadow: 0 1px 2px rgb(31 63 102 / 0.06), 0 8px 24px rgb(31 63 102 / 0.08);
+  --radius: 18px;
+  --radius-sm: 12px;
+
+  --font-display: "Varela Round", "Rubik", system-ui, sans-serif;
+  --font-body: "Rubik", "Segoe UI", Arial, sans-serif;
+
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -27,10 +52,11 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  font-family: "Segoe UI", Arial, sans-serif;
-  line-height: 1.5;
-  color: #27324a;
-  background: #f5f3ff;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg) linear-gradient(160deg, #fde8f0 0%, #f4f9fc 35%, #e3f5ee 70%, #e2effb 100%) fixed;
 }
 
 button,
@@ -49,6 +75,16 @@ button:disabled {
 }
 
 :focus-visible {
-  outline: 3px solid #a5a0f2;
+  outline: 2px solid var(--pink-deep);
   outline-offset: 2px;
+}
+
+/* מי שביקש במערכת ההפעלה פחות תנועה, לא מקבל אנימציות */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

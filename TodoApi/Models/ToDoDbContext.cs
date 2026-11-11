@@ -22,6 +22,13 @@ public partial class ToDoDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("Items_pkey");
 
             entity.Property(e => e.Name).HasMaxLength(100);
+
+            // כל משימה שייכת למשתמש אחד
+            entity.HasOne<User>()
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("Items_UserId_fkey");
         });
 
         modelBuilder.Entity<User>(entity =>

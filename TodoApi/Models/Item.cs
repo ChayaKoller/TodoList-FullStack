@@ -10,4 +10,7 @@ public partial class Item
     public string? Name { get; set; }
 
     public bool? IsComplete { get; set; }
+
+    // המשתמש שהמשימה שייכת לו (נקבע בשרת לפי הטוקן)
+    public int UserId { get; set; }
 }

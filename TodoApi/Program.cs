@@ -94,24 +94,48 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowAll");
 
 
-//get all items
-app.MapGet("/api/items", async (ToDoDbContext db) =>
+// מזהה המשתמש המחובר, מתוך הטוקן (ה-claim "sub" שנוצר בהתחברות)
+static int GetUserId(ClaimsPrincipal user)
 {
-    var items = await db.Items.ToListAsync();
+    var id = user.FindFirstValue(ClaimTypes.NameIdentifier)
+          ?? user.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+    return int.Parse(id!);
+}
+
+//get all items - רק המשימות של המשתמש המחובר
+app.MapGet("/api/items", async (ClaimsPrincipal user, ToDoDbContext db) =>
+{
+    var userId = GetUserId(user);
+
+    var items = await db.Items
+        .Where(i => i.UserId == userId)
+        .ToListAsync();
+
     return Results.Ok(items);
 }).RequireAuthorization();
-//post new item
-app.MapPost("/api/items", async (Item item, ToDoDbContext db) =>
+//post new item - הבעלים נקבע בשרת, לא לפי מה שהלקוח שולח
+app.MapPost("/api/items", async (Item item, ClaimsPrincipal user, ToDoDbContext db) =>
 {
-    db.Items.Add(item);
+    var newItem = new Item
+    {
+        Name = item.Name,
+        IsComplete = item.IsComplete ?? false,
+        UserId = GetUserId(user)
+    };
+
+    db.Items.Add(newItem);
     await db.SaveChangesAsync();
 
-    return Results.Ok(item);
-}).RequireAuthorization();;
-//put item by id
-app.MapPut("/api/items/{id}", async (int id, Item updatedItem, ToDoDbContext db) =>
+    return Results.Ok(newItem);
+}).RequireAuthorization();
+//put item by id - רק משימה של המשתמש המחובר
+app.MapPut("/api/items/{id}", async (int id, Item updatedItem, ClaimsPrincipal user, ToDoDbContext db) =>
 {
-    var item = await db.Items.FindAsync(id);
+    var userId = GetUserId(user);
+
+    var item = await db.Items
+        .FirstOrDefaultAsync(i => i.Id == id && i.UserId == userId);
 
     if (item == null)
         return Results.NotFound();
@@ -122,11 +146,14 @@ app.MapPut("/api/items/{id}", async (int id, Item updatedItem, ToDoDbContext db)
     await db.SaveChangesAsync();
 
     return Results.NoContent();
-}).RequireAuthorization();;
-//delete item by id
-app.MapDelete("/api/items/{id}", async (int id, ToDoDbContext db) =>
+}).RequireAuthorization();
+//delete item by id - רק משימה של המשתמש המחובר
+app.MapDelete("/api/items/{id}", async (int id, ClaimsPrincipal user, ToDoDbContext db) =>
 {
-    var item = await db.Items.FindAsync(id);
+    var userId = GetUserId(user);
+
+    var item = await db.Items
+        .FirstOrDefaultAsync(i => i.Id == id && i.UserId == userId);
 
     if (item == null)
         return Results.NotFound();

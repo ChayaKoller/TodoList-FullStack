@@ -3,6 +3,18 @@ import axios from "axios";
 
 // 1. הגדרת כתובת בסיס לכל בקשות Axios
 axios.defaults.baseURL = "http://localhost:5199/api";
+
+// הוספת הטוקן (JWT) לכל בקשה שיוצאת לשרת
+axios.interceptors.request.use((config) => {
+  const token = sessionStorage.getItem("token");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
 axios.interceptors.response.use(
   (response) => response,
 
@@ -22,21 +34,6 @@ axios.interceptors.response.use(
 
       window.dispatchEvent(new Event("auth-expired"));
     }
-
-    return Promise.reject(error);
-  }
-);
-
-// 2. Interceptor לטיפול בשגיאות בתשובות
-axios.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    console.error("API Error:", {
-      message: error.message,
-      status: error.response?.status,
-      url: error.config?.url,
-      data: error.response?.data
-    });
 
     return Promise.reject(error);
   }
